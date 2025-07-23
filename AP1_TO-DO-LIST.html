@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TO-DO LIST</title>
+    <style>
+      body {
+        background-color: black;
+        font-family: cursive;
+      }
+      .innerdiv {
+        background-color: rgb(144, 255, 255);
+        margin-left: 10px;
+        height: 72vh;
+        width: 47vw;
+        display: inline-block;
+      }
+      .clearbutton {
+        margin-top: 10px;
+        display: inline-block;
+      }
+      .inner2 {
+        overflow-y: auto;
+        margin: 0px 10px 10px 11px;
+        padding: 3px;
+        background-color: aqua;
+        height: 31vh;
+        width: 95%;
+      }
+      .inner3 {
+        background-color: aqua;
+        height: 20vh;
+        width: 21vw;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        margin-left: 12px;
+        align-items: center;
+        justify-content: center;
+        display: inline-block;
+        align-items: vertical;
+      }
+      .content {
+        width: 50vw;
+        display: inline-block;
+        height: 100%;
+      }
+      h1 {
+        text-align: center;
+        font-family: cursive;
+        background-color: aqua;
+      }
+      h3 {
+        text-align: center;
+        padding-top: 20px;
+        margin-bottom: 0px;
+        height: 20px;
+      }
+      h5 {
+        color: black;
+        text-align: center;
+        display: inline-block;
+        width: 75%;
+      }
+      ol {
+        font-family: cursive;
+        color: white;
+        width: 530px;
+      }
+      button {
+        margin-left: 10px;
+        padding: 5px;
+      }
+      li {
+        color: white;
+      }
+      .wid {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      input {
+        width: 500px;
+        padding: 5px;
+      }
+      .content,
+      .innerdiv {
+        vertical-align: top;
+      }
+      .coloroffont {
+        color: black;
+      }
+      .timer {
+        width: 150px;
+        height: 50px;
+        margin-left: 60px;
+        border-radius: 50px;
+        box-shadow: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>To-Do List</h1>
+
+    <div class="content">
+      <input id="textinput" type="text" placeholder="Enter Next Task" />
+      <button onclick="enter()" id="but">ADD</button>
+      <ol id="container"></ol>
+    </div>
+    <div class="innerdiv">
+      <button onclick="cleardiv()" class="clearbutton">CLEAR</button>
+      <h5>COMPLETED TASKS</h5>
+      <div class="inner2" id="taskdone">
+        <ul id="donetasks"></ul>
+      </div>
+      <div class="inner3">
+        <h3 id="time"></h3>
+      </div>
+      <button class="timer" id="timer" onclick="settimer()">
+        5 MINS TIMER
+      </button>
+    </div>
+    <script>
+      function enter() {
+        var cont = document.getElementById("textinput").value;
+        if (cont) {
+          var task = document.createElement("div");
+          var listele = document.createElement("li");
+          task.setAttribute("class", "wid");
+          task.innerHTML = cont;
+          task.innerHTML += "   <button>COMPLETED</button>   ";
+          task.setAttribute("onclick", "completed(event)");
+          listele.append(task);
+          console.log(task);
+          console.log(listele);
+          var elemen = document.getElementById("container");
+          elemen.append(listele);
+          document.getElementById("textinput").value = "";
+        }
+      }
+      function completed(event) {
+        var ele = document.createElement("li");
+        event.target.parentElement.parentElement.remove();
+        var taskcompleted =
+          event.target.parentElement.firstChild.textContent.trim();
+        console.log(taskcompleted);
+        var boxspace = document.getElementById("donetasks");
+        ele.innerHTML = taskcompleted;
+        ele.setAttribute("class", "coloroffont");
+        boxspace.append(ele);
+      }
+      function timeover() {
+        var ele = document.getElementById("timer");
+        ele.innerHTML = "TIME OVER";
+        setTimeout(reset, 10000);
+      }
+      function reset() {
+        var ele = document.getElementById("timer");
+        ele.innerHTML = "5 MINS TIMER";
+      }
+      function settimer(event) {
+        var ele = document.getElementById("timer");
+        ele.innerHTML = "TIMER STARTED";
+        setTimeout(timeover, 300000);
+      }
+      function cleardiv() {
+        var ele = document.getElementById("donetasks");
+
+        ele.innerHTML = "";
+      }
+      function updateTime() {
+        const now = new Date();
+        const formattedTime = now.toLocaleTimeString();
+        const timeDiv = document.getElementById("time");
+        if (timeDiv) {
+          timeDiv.textContent = formattedTime;
+        }
+      }
+      updateTime();
+      setInterval(updateTime, 1000);
+      src = "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js";
+    </script>
+  </body>
+</html>
